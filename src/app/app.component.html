@@ -1,0 +1,27 @@
+<error-modal-component class="modal-styles" [visible]="errorModal$ | async" [message]="errorMessage$ | async" (dismissedError)="dismissErrorModal()"></error-modal-component>
+<loader-component [visible]="loader$ | async"></loader-component>
+<ion-split-pane [when]="shouldShowMenu()">
+    <ion-menu id="loggedOutMenu" [content]="content">
+
+        <ion-header class="no-shadow-header">
+            <ion-toolbar>
+                <ion-title>Menu</ion-title>
+            </ion-toolbar>
+        </ion-header>
+
+        <ion-content class="outer-content" overflow-scroll="false">
+            <ion-list>
+                <ion-list-header>
+                    My App
+                </ion-list-header>
+                <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)">
+                <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
+                {{p.title}}
+            </button>
+            </ion-list>
+        </ion-content>
+
+    </ion-menu>
+
+    <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main></ion-nav>
+</ion-split-pane>
