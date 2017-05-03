@@ -1,0 +1,18 @@
+{
+  "firebase": {
+    "databaseURL": "https://disciple-exchange.firebaseio.com",
+    "storageBucket": "disciple-exchange.appspot.com",
+    "apiKey": "AIzaSyBfGF30lqLx6Mm-nVfSwb7rOuOnZBYmnkY",
+    "authDomain": "disciple-exchange.firebaseapp.com",
+    "serviceAccount": "/Users/Andrew/Documents/webrepos/disciple-exchange-service-account.json"
+  },
+  "config": {
+    "token": "1/sQilI-IsTWq2YmJqS21inMfkbr7Q6VFVFmYdSF_6CtY",
+    "project": "disciple-exchange"
+  },
+  "models": {
+    "queues": {
+      "current-user": "disciple-exchange/queues/current-user"
+    }
+  }
+}

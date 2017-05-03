@@ -1,0 +1,8 @@
+{
+  "spec_dir": "functions",
+  "spec_files": [
+    "index.spec.js"
+  ],
+  "stopSpecOnExpectationFailure": false,
+  "random": false
+}

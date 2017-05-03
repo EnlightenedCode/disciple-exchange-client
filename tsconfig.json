@@ -17,6 +17,7 @@
   "exclude": [
     "src/**/*.spec.ts",
     "node_modules",
+    "functions",
     "www"
   ],
   "typeRoots": [

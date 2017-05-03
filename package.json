@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "test": "ng test",
+    "testfunctions": "jasmine",
     "postinstall": "node nightwatch.conf.BASIC.js",
     "e2e": "node_modules/.bin/nightwatch --config nightwatch.conf.BASIC.js",
     "e2egroup": "node_modules/.bin/nightwatch --config nightwatch.conf.BASIC.js --group",

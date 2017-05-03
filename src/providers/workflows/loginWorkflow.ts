@@ -6,22 +6,37 @@ import { RootState } from '../../store/index';
 import { FirebaseService } from '../services/firebaseService';
 import { SharedWorkflows } from './sharedWorkflows';
 import { Observable } from "rxjs";
+import { ConsoleLogService } from '../services/logger';
 
 @Injectable()
 export class LoginWorkflow {
     constructor(
         private ngRedux: NgRedux<RootState>,
         private _frbSvc: FirebaseService,
-        private _shrdWrkflw: SharedWorkflows
+        private _shrdWrkflw: SharedWorkflows,
+        private _log: ConsoleLogService
     ) {
 
     }
 
     userLogin(email, pass): Observable<any> {
         let shrWrkFlw = this._shrdWrkflw;
+        let frbSvc = this._frbSvc;
+        let cons = this._log;
         shrWrkFlw.loaderShow();
         return Observable.create(observer => {
-            this._frbSvc.userLogin(email, pass).then(function () {
+            frbSvc.userLogin(email, pass).then(function (loginResp) {
+                frbSvc.addToLoginQueue(loginResp.uid).then(function () {
+                    console.log('done 2');
+                }, function () {
+                    console.log('errored');
+                });
+                // frbSvc.addUser(loginResp).then(function () {
+
+                // }, function () {
+                //     console.log('errored');
+                // })
+
                 shrWrkFlw.loaderHide();
                 shrWrkFlw.goToPage('About');
                 observer.next('done');

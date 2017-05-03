@@ -19,6 +19,7 @@ screenshots/
 .tmp/
 .bin/
 bin/
+functions/node_modules/
 .versions/
 coverage/
 dist/
