@@ -12,6 +12,7 @@ import { RootState } from '../../store/index';
 })
 
 export class AboutPage {
+  @select(['user', 'authenticated']) isAuthenticated$: Observable<any[]>;
   @select(['product', 'allProducts']) products$: Observable<any[]>;
   public currentPageState;
   public pageName = 'About';

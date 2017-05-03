@@ -49,6 +49,7 @@ export class SharedWorkflows {
         })
     }
 
+
     goToPage(page, pageParams = { index: 0 }) {
         this.ngRedux.dispatch({
             type: 'GO_TO_PAGE',

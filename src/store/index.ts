@@ -1,4 +1,4 @@
-// import persistState from 'redux-localstorage';
+import persistState from 'redux-localstorage';
 import { createLogger } from 'redux-logger';
 import * as user from './user';
 import * as app from './app';
@@ -7,14 +7,14 @@ import * as Redux from 'redux';
 const { combineReducers } = Redux;
 import { Map } from 'immutable';
 
-
+// const persist = (persistState) ? persistState : function(){};
 export const enhancers = [
-    // persistState(
-    //     '', {
-    //         key: 'trendy-brunch',
-    //         serialize: s => JSON.stringify(deimmutify(s)),
-    //         deserialize: s => reimmutify(JSON.parse(s)),
-    //     })
+    persistState(
+        '', {
+            key: 'trendy-brunch',
+            serialize: s => JSON.stringify(deimmutify(s)),
+            deserialize: s => reimmutify(JSON.parse(s)),
+        })
 ];
 
 if (window.devToolsExtension) {

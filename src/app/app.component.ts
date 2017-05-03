@@ -9,6 +9,7 @@ import reducer from '../store/index';
 import { WindowRef } from '../store/windowClass';
 import { ConsoleLogService } from '../providers/services/logger';
 import { SharedWorkflows } from '../providers/workflows/sharedWorkflows';
+import { LoginWorkflow } from '../providers/workflows/loginWorkflow';
 import { createLogger } from 'redux-logger';
 
 export interface PageInterface {
@@ -33,6 +34,7 @@ export class templateApp {
     @select(['app', 'loading']) loader$: Observable<any[]>;
     @select(['app', 'errorModal']) errorModal$: Observable<boolean>;
     @select(['app', 'errorMessage']) errorMessage$: Observable<string>;
+    @select(['user', 'authenticated']) isAuthenticated$: Observable<any[]>;
     @ViewChild(Nav) nav: Nav;
 
 
@@ -49,6 +51,7 @@ export class templateApp {
         private logger: ConsoleLogService,
         public events: Events,
         public sharedWrkflws: SharedWorkflows,
+        public loginWrkflw: LoginWorkflow,
         public menu: MenuController,
         public platform: Platform,
         public win: WindowRef
@@ -103,7 +106,7 @@ export class templateApp {
     applyStateToWindow(win) {
         var objectStore = {};
         var that = this;
-        Object.keys(this.ngRedux.getState()).forEach(function (key, index) {
+        Object.keys(this.ngRedux.getState()).forEach(function(key, index) {
             objectStore[key] = that.ngRedux.getState()[key].toJS();
         })
         win.store = objectStore;
@@ -145,6 +148,18 @@ export class templateApp {
     enableMenu(loggedIn: boolean) {
         this.menu.enable(loggedIn, 'loggedInMenu');
         this.menu.enable(!loggedIn, 'loggedOutMenu');
+    }
+
+    logout() {
+        let ngRedux = this.ngRedux;
+        this.loginWrkflw.userLogout().subscribe(() => {
+            console.log('finished logging out');
+            setTimeout(function() {
+                ngRedux.dispatch({
+                    type: 'USER_LOGOUT'
+                });
+            }, 100)
+        });
     }
 
     isActive(page: PageInterface) {

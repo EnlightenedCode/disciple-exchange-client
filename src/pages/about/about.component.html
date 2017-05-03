@@ -1,11 +1,20 @@
-<ion-header no-border>
+<div *ngIf="!(isAuthenticated$ | async)">
+  <div class="space-five">
+  </div>
+  <div class="no-access-text">
+    <p> You do not have access to view this page.</p>
+  </div>
+</div>
+
+
+<ion-header no-border *ngIf="isAuthenticated$ | async">
   <ion-navbar no-border-bottom>
     <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+        <ion-icon name="menu"></ion-icon>
+      </button>
   </ion-navbar>
 </ion-header>
-<ion-content no-bounce class="about-page">
+<ion-content no-bounce class="about-page" *ngIf="isAuthenticated$ | async">
   <p>About Page </p>
   <ul>
     <li *ngFor="let product of products$ | async">

@@ -4,9 +4,20 @@ import { Map } from 'immutable';
 
 export function userReducer(state: Map<string, any> = INITIAL_STATE, action): Map<string, any> {
     switch (action.type) {
-        case 'DEFAULT_NAME':
+        case 'USER_LOGIN':
             return Map<string, any>({
-                name: 'charlie tester'
+                name: action.payload.name,
+                email: action.payload.email,
+                authenticated: true,
+                isAdmin: action.payload.isAdmin
+            });
+
+        case 'USER_LOGOUT':
+            return Map<string, any>({
+                name: null,
+                email: null,
+                authenticated: false,
+                isAdmin: false
             });
 
         default:

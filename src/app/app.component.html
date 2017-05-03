@@ -1,7 +1,7 @@
 <error-modal-component class="modal-styles" [visible]="errorModal$ | async" [message]="errorMessage$ | async" (dismissedError)="dismissErrorModal()"></error-modal-component>
 <loader-component [visible]="loader$ | async"></loader-component>
 <ion-split-pane [when]="shouldShowMenu()">
-    <ion-menu id="loggedOutMenu" [content]="content">
+    <ion-menu id="loggedOutMenu" [content]="content" *ngIf="isAuthenticated$ | async">
 
         <ion-header class="no-shadow-header">
             <ion-toolbar>
@@ -15,9 +15,13 @@
                     My App
                 </ion-list-header>
                 <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)">
-                <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
-                {{p.title}}
-            </button>
+                    <ion-icon item-left [name]="p.icon" [color]="isActive(p)"></ion-icon>
+                    {{p.title}}
+                </button>
+                <button ion-item menuClose (click)="logout()">
+                    <ion-icon item-left name="log-out"></ion-icon>
+                    Log Out
+                </button>
             </ion-list>
         </ion-content>
 

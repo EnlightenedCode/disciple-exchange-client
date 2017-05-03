@@ -19,14 +19,51 @@ export class LoginWorkflow {
 
     }
 
+    userLogout(): Observable<any> {
+        let shrWrkFlw = this._shrdWrkflw;
+        let frbSvc = this._frbSvc;
+        let cons = this._log;
+        let ngRedux = this.ngRedux;
+        shrWrkFlw.loaderShow();
+        console.log('user logout');
+        return Observable.create(observer => {
+            console.log('here 33');
+            frbSvc.userLogout().then(function () {
+                shrWrkFlw.goToPage('Home');
+
+                shrWrkFlw.loaderHide();
+                console.log('hasdasdsa');
+
+                observer.next('done');
+            }, function (err) {
+                shrWrkFlw.loaderHide();
+                shrWrkFlw.errorModalShow('Unable to logout. Contact Support');
+                observer.error(err);
+            });
+        });
+    }
+
+
+
     userLogin(email, pass): Observable<any> {
         let shrWrkFlw = this._shrdWrkflw;
         let frbSvc = this._frbSvc;
         let cons = this._log;
+        let ngRedux = this.ngRedux;
         shrWrkFlw.loaderShow();
         return Observable.create(observer => {
             frbSvc.userLogin(email, pass).then(function (loginResp) {
+                console.log('after login response');
+                console.log(loginResp);
                 frbSvc.addToLoginQueue(loginResp.uid).then(function () {
+                    ngRedux.dispatch({
+                        type: 'USER_LOGIN',
+                        payload: {
+                            email: 'andrew@igocki.com',
+                            name: 'Andrew Alanis',
+                            isAdmin: true
+                        }
+                    })
                     console.log('done 2');
                 }, function () {
                     console.log('errored');

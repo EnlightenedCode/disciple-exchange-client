@@ -29,6 +29,11 @@ export class FirebaseService {
         return this.fireAuth.login({ email: email, password: pass });
     }
 
+    userLogout() {
+        console.log('log out');
+        return this.fireAuth.logout();
+    }
+
     addUser(userResp) {
         var newUserObject = this.db.object('/users/' + userResp.uid);
         return newUserObject.set({

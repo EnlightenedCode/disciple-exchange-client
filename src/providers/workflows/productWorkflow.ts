@@ -30,7 +30,12 @@ export class ProductWorkflow {
       shrWrkFlw.loaderHide();
     }).catch((error: any) => {
       shrWrkFlw.loaderHide();
-      return Observable.throw(error.json());
+      if (error && error.message.indexOf('permission_denied') > -1) {
+        return Observable.throw(error);
+      } else {
+        console.log(error);
+        return Observable.throw(error);
+      }
     })
   }
 }
