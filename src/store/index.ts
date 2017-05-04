@@ -1,4 +1,4 @@
-import persistState from 'redux-localstorage';
+import * as persistState from 'redux-localstorage';
 import { createLogger } from 'redux-logger';
 import * as user from './user';
 import * as app from './app';
