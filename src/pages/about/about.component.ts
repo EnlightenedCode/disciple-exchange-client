@@ -12,10 +12,12 @@ import { RootState } from '../../store/index';
 })
 
 export class AboutPage {
-  @select(['user', 'authenticated']) isAuthenticated$: Observable<any[]>;
+  @select(['user', 'authenticated']) isAuthenticated$: Observable<any>;
+  @select(['app', 'loading']) loading$: Observable<any>;
   @select(['product', 'allProducts']) products$: Observable<any[]>;
   public currentPageState;
   public pageName = 'About';
+  public contentDoneLoading;
   public products;
   constructor(
     private logger: ConsoleLogService,
@@ -38,6 +40,15 @@ export class AboutPage {
     if (this.currentPageState !== this.pageName) {
       this._shared.goToPage(this.pageName);
     }
+  }
+
+  ionViewDidLoad() {
+    console.log('LOADED');
+    this.contentDoneLoading = true;
+  }
+
+  ionViewWillLeave() {
+    this.contentDoneLoading = false;
   }
 
 }

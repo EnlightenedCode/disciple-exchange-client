@@ -1,24 +1,37 @@
-<div *ngIf="!(isAuthenticated$ | async)">
-  <div class="space-five">
-  </div>
-  <div class="no-access-text">
-    <p> You do not have access to view this page.</p>
-  </div>
-</div>
+<container-shell [headerText]="''" [isAuthenticated]="isAuthenticated$ | async">
+  <no-access [errorText]="'You do not have access to view this page.'" [isAuthenticated]="isAuthenticated$ | async" [loading]="loading$ | async"></no-access>
 
+  <div *ngIf="isAuthenticated$ | async" class="about-page">
+    <p>About Page </p>
+    <ul>
+      <li *ngFor="let product of products$ | async">
+        {{ product.$value }}
+      </li>
+    </ul>
+  </div>
+</container-shell>
 
-<ion-header no-border *ngIf="isAuthenticated$ | async">
-  <ion-navbar no-border-bottom>
+<!--<ion-header no-border>
+  <ion-navbar no-border-bottom *ngIf="isAuthenticated$ | async">
     <button ion-button menuToggle>
         <ion-icon name="menu"></ion-icon>
       </button>
   </ion-navbar>
 </ion-header>
-<ion-content no-bounce class="about-page" *ngIf="isAuthenticated$ | async">
-  <p>About Page </p>
-  <ul>
-    <li *ngFor="let product of products$ | async">
-      {{ product.$value }}
-    </li>
-  </ul>
-</ion-content>
+<ion-content no-bounce class="about-page">
+  <div *ngIf="!(isAuthenticated$ | async) && !(loading$ | async)">
+    <div class="space-five">
+    </div>
+    <div class="no-access-text">
+      <p> You do not have access to view this page.</p>
+    </div>
+  </div>
+  <div *ngIf="isAuthenticated$ | async">
+    <p>About Page </p>
+    <ul>
+      <li *ngFor="let product of products$ | async">
+        {{ product.$value }}
+      </li>
+    </ul>
+  </div>
+</ion-content>-->

@@ -1,7 +1,9 @@
-'user strict';
+'use strict';
 const functions = require('firebase-functions');
-const admin = require('firebase-admin');
 
+const admin = require('firebase-admin');
+const RegisterUser = require('./registerUser');
+const HW = require('./hw')
 const quiverFunctions = require('quiver-functions');
 const OnCreate = quiverFunctions.OnCreate;
 const Login = quiverFunctions.Login;
@@ -21,6 +23,18 @@ const login = new Login({
 });
 
 exports.login = functions.database.ref('queues/current-user/{uid}').onWrite(login.getFunction());
+
+
+const registerUser = new RegisterUser({
+  usersPath: 'users'
+});
+
+exports.registerUser = functions.database.ref('queues/register-user/{uid}').onWrite(registerUser.getFunction());
+
+const hw = new HW();
+
+exports.hw = functions.https.onRequest(hw.getFunction());
+
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions

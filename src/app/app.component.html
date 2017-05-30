@@ -1,7 +1,7 @@
 <error-modal-component class="modal-styles" [visible]="errorModal$ | async" [message]="errorMessage$ | async" (dismissedError)="dismissErrorModal()"></error-modal-component>
 <loader-component [visible]="loader$ | async"></loader-component>
 <ion-split-pane [when]="shouldShowMenu()">
-    <ion-menu id="loggedOutMenu" [content]="content" *ngIf="isAuthenticated$ | async">
+    <ion-menu [content]="content" [enabled]="isAuthenticated$ | async" [swipeEnabled]="isAuthenticated$ | async">
 
         <ion-header class="no-shadow-header">
             <ion-toolbar>

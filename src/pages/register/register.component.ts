@@ -7,15 +7,15 @@ import { NgRedux, select } from '@angular-redux/store';
 import { RootState } from '../../store/index';
 
 @Component({
-  selector: 'home-page',
-  templateUrl: 'home.component.html'
+  selector: 'register-page',
+  templateUrl: 'register.component.html'
 })
 
-export class HomePage {
+export class RegisterPage {
   @select(['user', 'authenticated']) isAuthenticated$: Observable<any>;
 
   public currentPageState;
-  public pageName = 'Home';
+  public pageName = 'Register';
   constructor(
     private logger: ConsoleLogService,
     private _shared: SharedWorkflows,
@@ -30,18 +30,17 @@ export class HomePage {
     })
   }
 
-  submitLogin(formData) {
-
-    this._loginWorkflow.userLogin(formData.email, formData.password).subscribe(() => {
-      this.logger.log('in here now');
-    }, error => {
-      this.logger.log('this errored yo');
+  registerUser(userForm) {
+    this._loginWorkflow.registerUser(userForm).subscribe(() => {
+      console.log('this is done');
     });
+    //this._shared.goToPage('Confirm-Register');
   }
 
-  goToRegister() {
-    this._shared.goToPage('Register');
-  }
+
+  // goToRegister() {
+  //   this._shared.goToPage('Register');
+  // }
 
   ionViewDidEnter() {
     if (this.currentPageState !== this.pageName) {

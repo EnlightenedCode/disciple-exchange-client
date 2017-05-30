@@ -29,6 +29,35 @@ export class FirebaseService {
         return this.fireAuth.login({ email: email, password: pass });
     }
 
+    getAuth() {
+        console.log('in get auth');
+        this.fireAuth.subscribe((data) => {
+            console.log('in subscribe');
+            console.log(data);
+        });
+    }
+
+    updateUserProfile() {
+        console.log('updating user profile');
+        // this.fireAuth.subscribe((data) => {
+        //     console.log('in subscribe');
+        //     console.log(data);
+        //     data.updateUserProfile({
+        //         displayName: 'Link Notingham',
+        //         photoUrl: 'some/url'
+        //     });
+        // });
+        // return this.fireAuth.updateUserProfile({
+        //     displayName: 'Link Notingham',
+        //     photoUrl: 'some/url'
+        // })
+    }
+
+    createNewUser(userObj) {
+        console.log('creating new user');
+        return this.fireAuth.createUser({ email: userObj.email, password: userObj.password })
+    }
+
     userLogout() {
         console.log('log out');
         return this.fireAuth.logout();
@@ -42,10 +71,20 @@ export class FirebaseService {
         });
     }
 
-    addToLoginQueue(uid) {
+    addToRegisterQueue(uid, userObj) {
+        var newQueueObject = this.db.object('/queues/register-user/' + uid);
+        return newQueueObject.set({
+            firstName: userObj.firstName,
+            lastName: userObj.lastName,
+            churchPostalCode: userObj.churchPostalCode,
+            email: userObj.email
+        });
+    }
+
+    addToLoginQueue(uid, email) {
         var newQueueObject = this.db.object('/queues/current-user/' + uid);
         return newQueueObject.set({
-            email: 'andrew@igocki.com',
+            email: email,
             isAdmin: false
         });
     }

@@ -4,6 +4,7 @@ import { Response } from '@angular/http';
 import { NgRedux } from '@angular-redux/store';
 import { RootState } from '../../store/index';
 import { FirebaseService } from '../services/firebaseService';
+import { AuthService } from '../services/authService';
 import { SharedWorkflows } from './sharedWorkflows';
 import { Observable } from "rxjs";
 import { ConsoleLogService } from '../services/logger';
@@ -14,7 +15,8 @@ export class LoginWorkflow {
         private ngRedux: NgRedux<RootState>,
         private _frbSvc: FirebaseService,
         private _shrdWrkflw: SharedWorkflows,
-        private _log: ConsoleLogService
+        private _log: ConsoleLogService,
+        private _authSvc: AuthService
     ) {
 
     }
@@ -43,6 +45,49 @@ export class LoginWorkflow {
         });
     }
 
+    registerUser(userForm): Observable<any> {
+        let shrWrkFlw = this._shrdWrkflw;
+        let frbSvc = this._frbSvc;
+        let cons = this._log;
+        let ngRedux = this.ngRedux;
+        let authSvc = this._authSvc;
+        shrWrkFlw.loaderShow();
+        console.log('user sign up');
+        return Observable.create(observer => {
+            console.log('here 33');
+            // console.log(authSvc.authState);
+            // observer.next('done');
+            console.log(userForm);
+            frbSvc.createNewUser(userForm).then(function (userInfo) {
+                console.log('user info:');
+                console.log(userInfo);
+                frbSvc.addToRegisterQueue(userInfo.uid, userForm).then(function () {
+                    // ngRedux.dispatch({
+                    //     type: 'USER_LOGIN',
+                    //     payload: {
+                    //         email: email,
+                    //         name: 'Andrew Alanis',
+                    //         isAdmin: true
+                    //     }
+                    // })
+                    shrWrkFlw.loaderHide();
+                    shrWrkFlw.goToPage('Confirm-Register');
+                    observer.next('done');
+                    console.log('done 2');
+                }, function (err2) {
+                    console.log('errored');
+                    observer.error(err2);
+                });
+
+            }, function (err) {
+                console.log('errored here');
+                shrWrkFlw.loaderHide();
+                shrWrkFlw.errorModalShow('Unable to register User. Contact Support');
+                observer.error(err);
+            });
+        });
+    }
+
 
 
     userLogin(email, pass): Observable<any> {
@@ -55,11 +100,11 @@ export class LoginWorkflow {
             frbSvc.userLogin(email, pass).then(function (loginResp) {
                 console.log('after login response');
                 console.log(loginResp);
-                frbSvc.addToLoginQueue(loginResp.uid).then(function () {
+                frbSvc.addToLoginQueue(loginResp.uid, email).then(function () {
                     ngRedux.dispatch({
                         type: 'USER_LOGIN',
                         payload: {
-                            email: 'andrew@igocki.com',
+                            email: email,
                             name: 'Andrew Alanis',
                             isAdmin: true
                         }

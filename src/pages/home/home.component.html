@@ -1,35 +1,7 @@
-<ion-header no-border>
-  <ion-navbar no-border-bottom *ngIf="false">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-  </ion-navbar>
-</ion-header>
-
-<ion-content no-bounce class="background-splash">
-<top-header-logo>
-</top-header-logo>
-
-
-  <ion-row justify-content-center>
-    <ion-col col-11 col-md-6 col-lg-6 col-xl-3>
-      <ion-card>
-        <ion-card-header class="center-text">
-          <h1>Account Sign in</h1>
-        </ion-card-header>
-
-        <ion-card-content>
-          <ion-row justify-content-center>
-            <ion-col col-12 col-md-11 col-lg-10 col-xl-10>
-              <login-form (submitLogin)="submitLogin($event)"></login-form>
-            </ion-col>
-          </ion-row>
-          
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-  </ion-row>
-
-
-
-</ion-content>
+<container-shell [headerText]="'Account Sign In'" [isAuthenticated]="isAuthenticated$ | async">
+  <login-form (submitLogin)="submitLogin($event)"></login-form>
+  <div class="space-two"></div>
+  <button ion-button full type="button" class="register-button" (click)="goToRegister()">
+                Register Account
+              </button>
+</container-shell>

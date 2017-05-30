@@ -1,0 +1,5 @@
+<container-shell [headerText]="'Register'" [isAuthenticated]="isAuthenticated$ | async">
+  <div class="register-page">
+    <register-form (submitRegister)="registerUser($event)"></register-form>
+  </div>
+</container-shell>

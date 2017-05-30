@@ -106,7 +106,7 @@ export class templateApp {
     applyStateToWindow(win) {
         var objectStore = {};
         var that = this;
-        Object.keys(this.ngRedux.getState()).forEach(function(key, index) {
+        Object.keys(this.ngRedux.getState()).forEach(function (key, index) {
             objectStore[key] = that.ngRedux.getState()[key].toJS();
         })
         win.store = objectStore;
@@ -154,7 +154,7 @@ export class templateApp {
         let ngRedux = this.ngRedux;
         this.loginWrkflw.userLogout().subscribe(() => {
             console.log('finished logging out');
-            setTimeout(function() {
+            setTimeout(function () {
                 ngRedux.dispatch({
                     type: 'USER_LOGOUT'
                 });
